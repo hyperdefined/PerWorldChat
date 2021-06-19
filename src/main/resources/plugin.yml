@@ -1,0 +1,7 @@
+name: PerWorldChat
+version: ${project.version}
+main: lol.hyper.perworldchat.PerWorldChat
+api-version: 1.13
+commands:
+  worlds:
+    usage: /worlds
