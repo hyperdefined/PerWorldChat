@@ -4,6 +4,7 @@ import lol.hyper.perworldchat.commands.CommandWorlds;
 import lol.hyper.perworldchat.events.AsyncPlayerChat;
 import lol.hyper.perworldchat.events.PlayerChangedWorld;
 import lol.hyper.perworldchat.events.PlayerLeaveJoin;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -30,5 +31,7 @@ public final class PerWorldChat extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(playerLeaveJoin, this);
 
         this.getCommand("worlds").setExecutor(new CommandWorlds(this));
+
+        Metrics metrics = new Metrics(this, 11754);
     }
 }
