@@ -11,10 +11,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public final class PerWorldChat extends JavaPlugin {
 
-    public final HashMap<Player, World> playerLocations = new HashMap<>();
+    // we track which world each player is in
+    public final HashMap<World, Set<Player>> playerLocations = new HashMap<>();
 
     public AsyncPlayerChat asyncPlayerChat;
     public PlayerChangedWorld playerChangedWorld;
@@ -33,5 +36,11 @@ public final class PerWorldChat extends JavaPlugin {
         this.getCommand("worlds").setExecutor(new CommandWorlds(this));
 
         Metrics metrics = new Metrics(this, 11754);
+
+        // initialize all the worlds
+        for (World world : Bukkit.getWorlds()) {
+            Set<Player> empty = new HashSet<>();
+            playerLocations.put(world, empty);
+        }
     }
 }
