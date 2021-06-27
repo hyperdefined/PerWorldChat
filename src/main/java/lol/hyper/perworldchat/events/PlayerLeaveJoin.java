@@ -4,6 +4,7 @@ import lol.hyper.perworldchat.PerWorldChat;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -16,7 +17,7 @@ public class PlayerLeaveJoin implements Listener {
         this.perWorldChat = perWorldChat;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         World world = player.getWorld();
@@ -24,7 +25,7 @@ public class PlayerLeaveJoin implements Listener {
         perWorldChat.playerLocations.get(world).add(player);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlayerLeave(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         World world = player.getWorld();
