@@ -38,6 +38,8 @@ public final class PerWorldChat extends JavaPlugin {
         Metrics metrics = new Metrics(this, 11754);
 
         // initialize all the worlds
+        // if we don't throw an empty set into the hashmap for each world, they are null
+        // I don't feel like null checking so this is easier :)
         for (World world : Bukkit.getWorlds()) {
             Set<Player> empty = Collections.emptySet();
             playerLocations.put(world, empty);

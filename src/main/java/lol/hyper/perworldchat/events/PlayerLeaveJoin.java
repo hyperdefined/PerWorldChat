@@ -22,6 +22,7 @@ public class PlayerLeaveJoin implements Listener {
         Player player = event.getPlayer();
         World world = player.getWorld();
 
+        // add player to the world list when they login
         perWorldChat.playerLocations.get(world).add(player);
     }
 
@@ -30,6 +31,7 @@ public class PlayerLeaveJoin implements Listener {
         Player player = event.getPlayer();
         World world = player.getWorld();
 
+        // remove player from world list when they leave the server
         perWorldChat.playerLocations.get(world).remove(player);
     }
 }

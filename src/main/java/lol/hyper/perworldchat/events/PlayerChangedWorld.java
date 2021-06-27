@@ -18,9 +18,9 @@ public class PlayerChangedWorld implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onWorldChange(PlayerChangedWorldEvent event) {
-        World newWorld = event.getPlayer().getWorld();
-        World oldWorld = event.getFrom();
         Player player = event.getPlayer();
+        World newWorld = player.getWorld();
+        World oldWorld = event.getFrom();
 
         perWorldChat.playerLocations.get(oldWorld).remove(player); // remove them from the oldWorld list
         perWorldChat.playerLocations.get(newWorld).add(player); // put them into the newWorld list

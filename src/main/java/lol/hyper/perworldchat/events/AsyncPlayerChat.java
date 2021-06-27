@@ -18,6 +18,7 @@ public class AsyncPlayerChat implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onChat(AsyncPlayerChatEvent event) {
         World currentWorld = event.getPlayer().getWorld();
+        // remove all recipients that are not in the same world from our list
         event.getRecipients().retainAll(perWorldChat.playerLocations.get(currentWorld));
     }
 }
