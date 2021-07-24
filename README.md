@@ -16,7 +16,7 @@ PerWorldChat is a super easy plugin to separate chat messages between worlds. **
 * A `/worlds` command to see who is in which world.
 
 ## Documentation
-Visit the [wiki](https://github.com/hyperdefined/PerWorldChat/wiki) for help.
+Visit the [wiki](https://docs.hyper.lol/perworldchat) for help.
 
 ## License
 This plugin is released under GNU General Public License v3. See [LICENSE](https://github.com/hyperdefined/PerWorldChat/blob/master/LICENSE).
