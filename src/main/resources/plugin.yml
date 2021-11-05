@@ -2,6 +2,9 @@ name: PerWorldChat
 version: ${project.version}
 main: lol.hyper.perworldchat.PerWorldChat
 api-version: 1.13
+author: hyperdefined
+website: https://www.spigotmc.org/resources/perworldchat.94282/
+description: Separate chat between worlds.
 commands:
   worlds:
     usage: /worlds
