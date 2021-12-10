@@ -18,12 +18,17 @@
 package lol.hyper.perworldchat.events;
 
 import lol.hyper.perworldchat.PerWorldChat;
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerChangedWorldEvent;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PlayerChangedWorld implements Listener {
 
@@ -39,7 +44,16 @@ public class PlayerChangedWorld implements Listener {
         World newWorld = player.getWorld();
         World oldWorld = event.getFrom();
 
-        perWorldChat.playerLocations.get(oldWorld).remove(player); // remove them from the oldWorld list
-        perWorldChat.playerLocations.get(newWorld).add(player); // put them into the newWorld list
+        perWorldChat.playerLocations.putIfAbsent(newWorld, Collections.emptySet());
+
+        // remove player from world they are leaving
+        Set<Player> oldList = new HashSet<>(perWorldChat.playerLocations.get(oldWorld));
+        oldList.remove(player);
+        perWorldChat.playerLocations.put(oldWorld, oldList);
+
+        // add player to the world's list they are going to
+        Set<Player> newList = new HashSet<>(perWorldChat.playerLocations.get(newWorld));
+        newList.add(player);
+        perWorldChat.playerLocations.put(newWorld, newList);
     }
 }

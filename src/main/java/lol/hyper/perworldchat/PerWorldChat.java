@@ -29,12 +29,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 public final class PerWorldChat extends JavaPlugin {
 
     // we track which world each player is in
     public final HashMap<World, Set<Player>> playerLocations = new HashMap<>();
+    public final Logger logger = this.getLogger();
 
     public AsyncPlayerChat asyncPlayerChat;
     public PlayerChangedWorld playerChangedWorld;
@@ -52,14 +55,6 @@ public final class PerWorldChat extends JavaPlugin {
 
         this.getCommand("worlds").setExecutor(new CommandWorlds(this));
 
-        Metrics metrics = new Metrics(this, 11754);
-
-        // initialize all the worlds
-        // if we don't throw an empty set into the hashmap for each world, they are null
-        // I don't feel like null checking so this is easier :)
-        for (World world : Bukkit.getWorlds()) {
-            Set<Player> empty = Collections.emptySet();
-            playerLocations.put(world, empty);
-        }
+        new Metrics(this, 11754);
     }
 }

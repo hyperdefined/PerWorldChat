@@ -40,8 +40,11 @@ public class CommandWorlds implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         sender.sendMessage(ChatColor.GOLD + "------------------Worlds-------------------");
         for (World world : Bukkit.getWorlds()) {
-            // create a new set that has all of the players per world
-            // probably better way to do this but I can't be bothered
+            if (perWorldChat.playerLocations.get(world) == null) {
+                continue; // ignore null worlds
+            }
+            // create a new set that has all the players per world
+            // probably better way to do this, but I can't be bothered
             Set<String> playersInWorld = new HashSet<>();
             perWorldChat.playerLocations.get(world).forEach(player -> playersInWorld.add(player.getName()));
             sender.sendMessage(ChatColor.GOLD + world.getName() + " (" + perWorldChat.playerLocations.get(world).size() + "): " + ChatColor.YELLOW + String.join(", ", playersInWorld));

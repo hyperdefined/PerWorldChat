@@ -26,6 +26,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class PlayerLeaveJoin implements Listener {
 
     private final PerWorldChat perWorldChat;
@@ -39,8 +44,14 @@ public class PlayerLeaveJoin implements Listener {
         Player player = event.getPlayer();
         World world = player.getWorld();
 
-        // add player to the world list when they login
-        perWorldChat.playerLocations.get(world).add(player);
+        // first check to see if the world was added to our list
+        // add the world with an empty list
+        perWorldChat.playerLocations.putIfAbsent(world, Collections.emptySet());
+
+        // get the current list and add new player
+        Set<Player> list = new HashSet<>(perWorldChat.playerLocations.get(world));
+        list.add(player);
+        perWorldChat.playerLocations.put(world, list);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -48,7 +59,9 @@ public class PlayerLeaveJoin implements Listener {
         Player player = event.getPlayer();
         World world = player.getWorld();
 
-        // remove player from world list when they leave the server
-        perWorldChat.playerLocations.get(world).remove(player);
+        // get the current list and remove the player that leaves
+        Set<Player> list = new HashSet<>(perWorldChat.playerLocations.get(world));
+        list.remove(player);
+        perWorldChat.playerLocations.put(world, list);
     }
 }
