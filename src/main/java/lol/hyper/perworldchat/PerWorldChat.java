@@ -17,6 +17,8 @@
 
 package lol.hyper.perworldchat;
 
+import lol.hyper.githubreleaseapi.GitHubRelease;
+import lol.hyper.githubreleaseapi.GitHubReleaseAPI;
 import lol.hyper.perworldchat.commands.CommandWorlds;
 import lol.hyper.perworldchat.events.AsyncPlayerChat;
 import lol.hyper.perworldchat.events.PlayerChangedWorld;
@@ -27,9 +29,8 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Collections;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -56,5 +57,30 @@ public final class PerWorldChat extends JavaPlugin {
         this.getCommand("worlds").setExecutor(new CommandWorlds(this));
 
         new Metrics(this, 11754);
+
+        Bukkit.getScheduler().runTaskAsynchronously(this, this::checkForUpdates);
+    }
+
+    public void checkForUpdates() {
+        GitHubReleaseAPI api;
+        try {
+            api = new GitHubReleaseAPI("PerWorldChat", "hyperdefined");
+        } catch (IOException e) {
+            logger.warning("Unable to check updates!");
+            e.printStackTrace();
+            return;
+        }
+        GitHubRelease current = api.getReleaseByTag(this.getDescription().getVersion());
+        GitHubRelease latest = api.getLatestVersion();
+        if (current == null) {
+            logger.warning("You are running a version that does not exist on GitHub. If you are in a dev environment, you can ignore this. Otherwise, this is a bug!");
+            return;
+        }
+        int buildsBehind = api.getBuildsBehind(current);
+        if (buildsBehind == 0) {
+            logger.info("You are running the latest version.");
+        } else {
+            logger.warning("A new version is available (" + latest.getTagVersion() + ")! You are running version " + current.getTagVersion() + ". You are " + buildsBehind + " version(s) behind.");
+        }
     }
 }

@@ -18,7 +18,6 @@
 package lol.hyper.perworldchat.events;
 
 import lol.hyper.perworldchat.PerWorldChat;
-import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

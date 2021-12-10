@@ -24,6 +24,7 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -37,7 +38,7 @@ public class CommandWorlds implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         sender.sendMessage(ChatColor.GOLD + "------------------Worlds-------------------");
         for (World world : Bukkit.getWorlds()) {
             if (perWorldChat.playerLocations.get(world) == null) {
