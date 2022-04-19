@@ -21,6 +21,8 @@ import lol.hyper.githubreleaseapi.GitHubRelease;
 import lol.hyper.githubreleaseapi.GitHubReleaseAPI;
 import lol.hyper.perworldchat.commands.CommandWorlds;
 import lol.hyper.perworldchat.events.AsyncPlayerChat;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,13 +34,17 @@ public final class PerWorldChat extends JavaPlugin {
 
     public final Logger logger = this.getLogger();
 
+    public final MiniMessage miniMessage = MiniMessage.miniMessage();
+    private BukkitAudiences adventure;
+
     public AsyncPlayerChat asyncPlayerChat;
     public CommandWorlds commandWorlds;
 
     @Override
     public void onEnable() {
+        adventure = BukkitAudiences.create(this);
         asyncPlayerChat = new AsyncPlayerChat();
-        commandWorlds = new CommandWorlds();
+        commandWorlds = new CommandWorlds(this);
 
         Bukkit.getServer().getPluginManager().registerEvents(asyncPlayerChat, this);
 
@@ -70,5 +76,12 @@ public final class PerWorldChat extends JavaPlugin {
         } else {
             logger.warning("A new version is available (" + latest.getTagVersion() + ")! You are running version " + current.getTagVersion() + ". You are " + buildsBehind + " version(s) behind.");
         }
+    }
+
+    public BukkitAudiences getAdventure() {
+        if (this.adventure == null) {
+            throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
+        }
+        return this.adventure;
     }
 }

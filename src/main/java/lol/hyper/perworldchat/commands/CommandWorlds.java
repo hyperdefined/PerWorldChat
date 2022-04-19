@@ -17,8 +17,10 @@
 
 package lol.hyper.perworldchat.commands;
 
+import lol.hyper.perworldchat.PerWorldChat;
+
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -30,15 +32,24 @@ import java.util.Set;
 
 public class CommandWorlds implements CommandExecutor {
 
+    private final PerWorldChat perWorldChat;
+    private final MiniMessage miniMessage;
+
+    public CommandWorlds(PerWorldChat perWorldChat) {
+        this.perWorldChat = perWorldChat;
+        this.miniMessage = perWorldChat.miniMessage;
+    }
+
     @Override
-    public boolean onCommand(CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
-        sender.sendMessage(ChatColor.GOLD + "------------------Worlds-------------------");
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
+        perWorldChat.getAdventure().sender(sender).sendMessage(miniMessage.deserialize("<gold>------------------Worlds-------------------</gold>"));
         for (World world : Bukkit.getWorlds()) {
             Set<String> playersInWorld = new HashSet<>();
             world.getPlayers().forEach(player -> playersInWorld.add(player.getName()));
-            sender.sendMessage(ChatColor.GOLD + world.getName() + " (" + playersInWorld.size() + "): " + ChatColor.YELLOW + String.join(", ", playersInWorld));
+            String worldMessage = "<gold>" + world.getName() + " (" + playersInWorld.size() + "):</gold> <yellow>" + String.join(", ", playersInWorld) + "</yellow>";
+            perWorldChat.getAdventure().sender(sender).sendMessage(miniMessage.deserialize(worldMessage));
         }
-        sender.sendMessage(ChatColor.GOLD + "-------------------------------------------");
+        perWorldChat.getAdventure().sender(sender).sendMessage(miniMessage.deserialize("<gold>-------------------------------------------</gold>"));
         return true;
     }
 }
