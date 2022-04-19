@@ -21,40 +21,28 @@ import lol.hyper.githubreleaseapi.GitHubRelease;
 import lol.hyper.githubreleaseapi.GitHubReleaseAPI;
 import lol.hyper.perworldchat.commands.CommandWorlds;
 import lol.hyper.perworldchat.events.AsyncPlayerChat;
-import lol.hyper.perworldchat.events.PlayerChangedWorld;
-import lol.hyper.perworldchat.events.PlayerLeaveJoin;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Set;
 import java.util.logging.Logger;
 
 public final class PerWorldChat extends JavaPlugin {
 
-    // we track which world each player is in
-    public final HashMap<World, Set<Player>> playerLocations = new HashMap<>();
     public final Logger logger = this.getLogger();
 
     public AsyncPlayerChat asyncPlayerChat;
-    public PlayerChangedWorld playerChangedWorld;
-    public PlayerLeaveJoin playerLeaveJoin;
+    public CommandWorlds commandWorlds;
 
     @Override
     public void onEnable() {
-        asyncPlayerChat = new AsyncPlayerChat(this);
-        playerChangedWorld = new PlayerChangedWorld(this);
-        playerLeaveJoin = new PlayerLeaveJoin(this);
+        asyncPlayerChat = new AsyncPlayerChat();
+        commandWorlds = new CommandWorlds();
 
         Bukkit.getServer().getPluginManager().registerEvents(asyncPlayerChat, this);
-        Bukkit.getServer().getPluginManager().registerEvents(playerChangedWorld, this);
-        Bukkit.getServer().getPluginManager().registerEvents(playerLeaveJoin, this);
 
-        this.getCommand("worlds").setExecutor(new CommandWorlds(this));
+        this.getCommand("worlds").setExecutor(commandWorlds);
 
         new Metrics(this, 11754);
 
