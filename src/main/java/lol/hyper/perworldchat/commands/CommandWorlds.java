@@ -19,7 +19,8 @@ package lol.hyper.perworldchat.commands;
 
 import lol.hyper.perworldchat.PerWorldChat;
 
-import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -33,23 +34,21 @@ import java.util.Set;
 public class CommandWorlds implements CommandExecutor {
 
     private final PerWorldChat perWorldChat;
-    private final MiniMessage miniMessage;
 
     public CommandWorlds(PerWorldChat perWorldChat) {
         this.perWorldChat = perWorldChat;
-        this.miniMessage = perWorldChat.miniMessage;
     }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
-        perWorldChat.getAdventure().sender(sender).sendMessage(miniMessage.deserialize("<gold>------------------Worlds-------------------</gold>"));
+        perWorldChat.getAdventure().sender(sender).sendMessage(Component.text("------------------Worlds-------------------").color(NamedTextColor.GOLD));
         for (World world : Bukkit.getWorlds()) {
             Set<String> playersInWorld = new HashSet<>();
             world.getPlayers().forEach(player -> playersInWorld.add(player.getName()));
-            String worldMessage = "<gold>" + world.getName() + " (" + playersInWorld.size() + "):</gold> <yellow>" + String.join(", ", playersInWorld) + "</yellow>";
-            perWorldChat.getAdventure().sender(sender).sendMessage(miniMessage.deserialize(worldMessage));
+            Component worldMessage = Component.text(world.getName() + " (" + playersInWorld.size() + ": ").color(NamedTextColor.GOLD).append(Component.text(String.join(", ", playersInWorld)).color(NamedTextColor.YELLOW));
+            perWorldChat.getAdventure().sender(sender).sendMessage(worldMessage);
         }
-        perWorldChat.getAdventure().sender(sender).sendMessage(miniMessage.deserialize("<gold>-------------------------------------------</gold>"));
+        perWorldChat.getAdventure().sender(sender).sendMessage(Component.text("-------------------------------------------").color(NamedTextColor.GOLD));
         return true;
     }
 }
