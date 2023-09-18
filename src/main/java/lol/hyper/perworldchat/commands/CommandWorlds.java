@@ -18,7 +18,6 @@
 package lol.hyper.perworldchat.commands;
 
 import lol.hyper.perworldchat.PerWorldChat;
-
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -45,7 +44,7 @@ public class CommandWorlds implements CommandExecutor {
         for (World world : Bukkit.getWorlds()) {
             Set<String> playersInWorld = new HashSet<>();
             world.getPlayers().forEach(player -> playersInWorld.add(player.getName()));
-            Component worldMessage = Component.text(world.getName() + " (" + playersInWorld.size() + ": ").color(NamedTextColor.GOLD).append(Component.text(String.join(", ", playersInWorld)).color(NamedTextColor.YELLOW));
+            Component worldMessage = Component.text(world.getName() + " (" + playersInWorld.size() + "): ").color(NamedTextColor.GOLD).append(Component.text(String.join(", ", playersInWorld)).color(NamedTextColor.YELLOW));
             perWorldChat.getAdventure().sender(sender).sendMessage(worldMessage);
         }
         perWorldChat.getAdventure().sender(sender).sendMessage(Component.text("-------------------------------------------").color(NamedTextColor.GOLD));

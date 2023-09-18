@@ -22,10 +22,10 @@ import lol.hyper.githubreleaseapi.GitHubReleaseAPI;
 import lol.hyper.perworldchat.commands.CommandWorlds;
 import lol.hyper.perworldchat.events.AsyncPlayerChat;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import space.arim.morepaperlib.MorePaperLib;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -34,15 +34,16 @@ public final class PerWorldChat extends JavaPlugin {
 
     public final Logger logger = this.getLogger();
 
-    public final MiniMessage miniMessage = MiniMessage.miniMessage();
     private BukkitAudiences adventure;
 
     public AsyncPlayerChat asyncPlayerChat;
     public CommandWorlds commandWorlds;
+    public MorePaperLib morePaperLib;
 
     @Override
     public void onEnable() {
         adventure = BukkitAudiences.create(this);
+        morePaperLib = new MorePaperLib(this);
         asyncPlayerChat = new AsyncPlayerChat();
         commandWorlds = new CommandWorlds(this);
 
@@ -51,8 +52,7 @@ public final class PerWorldChat extends JavaPlugin {
         this.getCommand("worlds").setExecutor(commandWorlds);
 
         new Metrics(this, 11754);
-
-        Bukkit.getScheduler().runTaskAsynchronously(this, this::checkForUpdates);
+        morePaperLib.scheduling().asyncScheduler().run(this::checkForUpdates);
     }
 
     public void checkForUpdates() {

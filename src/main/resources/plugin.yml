@@ -6,6 +6,7 @@ load: STARTUP
 author: hyperdefined
 website: https://www.spigotmc.org/resources/perworldchat.94282/
 description: Separate chat between worlds.
+folia-supported: true
 commands:
   worlds:
     usage: /worlds
