@@ -1,10 +1,10 @@
 name: PerWorldChat
 version: ${project.version}
 main: lol.hyper.perworldchat.PerWorldChat
-api-version: 1.13
+api-version: 1.21
 load: STARTUP
 author: hyperdefined
-website: https://www.spigotmc.org/resources/perworldchat.94282/
+website: https://github.com/hyperdefined/PerWorldChat/
 description: Separate chat between worlds.
 folia-supported: true
 commands:

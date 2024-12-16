@@ -17,18 +17,18 @@
 
 package lol.hyper.perworldchat.events;
 
+import io.papermc.paper.event.player.AsyncChatEvent;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class AsyncPlayerChat implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onChat(AsyncPlayerChatEvent event) {
+    public void onChat(AsyncChatEvent event) {
         World currentWorld = event.getPlayer().getWorld();
         // remove all recipients that are not in the same world
-        event.getRecipients().retainAll(currentWorld.getPlayers());
+        event.viewers().retainAll(currentWorld.getPlayers());
     }
 }

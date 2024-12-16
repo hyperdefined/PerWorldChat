@@ -21,11 +21,9 @@ import lol.hyper.githubreleaseapi.GitHubRelease;
 import lol.hyper.githubreleaseapi.GitHubReleaseAPI;
 import lol.hyper.perworldchat.commands.CommandWorlds;
 import lol.hyper.perworldchat.events.AsyncPlayerChat;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import space.arim.morepaperlib.MorePaperLib;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -33,26 +31,20 @@ import java.util.logging.Logger;
 public final class PerWorldChat extends JavaPlugin {
 
     public final Logger logger = this.getLogger();
-
-    private BukkitAudiences adventure;
-
     public AsyncPlayerChat asyncPlayerChat;
     public CommandWorlds commandWorlds;
-    public MorePaperLib morePaperLib;
 
     @Override
     public void onEnable() {
-        adventure = BukkitAudiences.create(this);
-        morePaperLib = new MorePaperLib(this);
         asyncPlayerChat = new AsyncPlayerChat();
-        commandWorlds = new CommandWorlds(this);
+        commandWorlds = new CommandWorlds();
 
         Bukkit.getServer().getPluginManager().registerEvents(asyncPlayerChat, this);
 
         this.getCommand("worlds").setExecutor(commandWorlds);
 
         new Metrics(this, 11754);
-        morePaperLib.scheduling().asyncScheduler().run(this::checkForUpdates);
+        Bukkit.getAsyncScheduler().runNow(this, scheduledTask -> checkForUpdates());
     }
 
     public void checkForUpdates() {
@@ -76,12 +68,5 @@ public final class PerWorldChat extends JavaPlugin {
         } else {
             logger.warning("A new version is available (" + latest.getTagVersion() + ")! You are running version " + current.getTagVersion() + ". You are " + buildsBehind + " version(s) behind.");
         }
-    }
-
-    public BukkitAudiences getAdventure() {
-        if (this.adventure == null) {
-            throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
-        }
-        return this.adventure;
     }
 }
