@@ -17,25 +17,27 @@
 
 package lol.hyper.perworldchat;
 
-import lol.hyper.githubreleaseapi.GitHubRelease;
-import lol.hyper.githubreleaseapi.GitHubReleaseAPI;
+import lol.hyper.hyperlib.HyperLib;
+import lol.hyper.hyperlib.bstats.HyperStats;
+import lol.hyper.hyperlib.releases.HyperUpdater;
 import lol.hyper.perworldchat.commands.CommandWorlds;
 import lol.hyper.perworldchat.events.AsyncPlayerChat;
-import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.IOException;
-import java.util.logging.Logger;
-
 public final class PerWorldChat extends JavaPlugin {
 
-    public final Logger logger = this.getLogger();
     public AsyncPlayerChat asyncPlayerChat;
     public CommandWorlds commandWorlds;
 
     @Override
     public void onEnable() {
+        HyperLib hyperLib = new HyperLib(this);
+        hyperLib.setup();
+
+        HyperStats stats = new HyperStats(hyperLib, 11754);
+        stats.setup();
+
         asyncPlayerChat = new AsyncPlayerChat();
         commandWorlds = new CommandWorlds();
 
@@ -43,30 +45,10 @@ public final class PerWorldChat extends JavaPlugin {
 
         this.getCommand("worlds").setExecutor(commandWorlds);
 
-        new Metrics(this, 11754);
-        Bukkit.getAsyncScheduler().runNow(this, scheduledTask -> checkForUpdates());
-    }
-
-    public void checkForUpdates() {
-        GitHubReleaseAPI api;
-        try {
-            api = new GitHubReleaseAPI("PerWorldChat", "hyperdefined");
-        } catch (IOException e) {
-            logger.warning("Unable to check updates!");
-            e.printStackTrace();
-            return;
-        }
-        GitHubRelease current = api.getReleaseByTag(this.getDescription().getVersion());
-        GitHubRelease latest = api.getLatestVersion();
-        if (current == null) {
-            logger.warning("You are running a version that does not exist on GitHub. If you are in a dev environment, you can ignore this. Otherwise, this is a bug!");
-            return;
-        }
-        int buildsBehind = api.getBuildsBehind(current);
-        if (buildsBehind == 0) {
-            logger.info("You are running the latest version.");
-        } else {
-            logger.warning("A new version is available (" + latest.getTagVersion() + ")! You are running version " + current.getTagVersion() + ". You are " + buildsBehind + " version(s) behind.");
-        }
+        HyperUpdater updater = new HyperUpdater(hyperLib);
+        updater.setGitHub("hyperdefined", "PerWorldChat");
+        updater.setModrinth("5OEklTLY");
+        updater.setHangar("PerWorldChat", "paper");
+        updater.check();
     }
 }

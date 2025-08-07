@@ -32,7 +32,7 @@ import java.util.Set;
 public class CommandWorlds implements CommandExecutor {
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String @NotNull [] args) {
         sender.sendMessage(Component.text("------------------Worlds-------------------").color(NamedTextColor.GOLD));
         for (World world : Bukkit.getWorlds()) {
             Set<String> playersInWorld = new HashSet<>();
