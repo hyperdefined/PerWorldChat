@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>lol.hyper</groupId>
-    <artifactId>PerWorldChat</artifactId>
+    <artifactId>perworldchat</artifactId>
     <version>1.2.2</version>
     <packaging>jar</packaging>
 
