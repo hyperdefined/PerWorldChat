@@ -43,7 +43,7 @@ public final class PerWorldChat extends JavaPlugin {
 
         Bukkit.getServer().getPluginManager().registerEvents(asyncPlayerChat, this);
 
-        this.getCommand("worlds").setExecutor(commandWorlds);
+        registerCommand("worlds", commandWorlds);
 
         HyperUpdater updater = new HyperUpdater(hyperLib);
         updater.setGitHub("hyperdefined", "PerWorldChat");

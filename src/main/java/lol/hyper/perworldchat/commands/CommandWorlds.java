@@ -17,22 +17,23 @@
 
 package lol.hyper.perworldchat.commands;
 
+import io.papermc.paper.command.brigadier.BasicCommand;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class CommandWorlds implements CommandExecutor {
+public class CommandWorlds implements BasicCommand {
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String @NotNull [] args) {
+    public void execute(@NonNull CommandSourceStack source, String @NonNull [] args) {
+        CommandSender sender = source.getSender();
         sender.sendMessage(Component.text("------------------Worlds-------------------").color(NamedTextColor.GOLD));
         for (World world : Bukkit.getWorlds()) {
             Set<String> playersInWorld = new HashSet<>();
@@ -41,6 +42,5 @@ public class CommandWorlds implements CommandExecutor {
             sender.sendMessage(worldMessage);
         }
         sender.sendMessage(Component.text("-------------------------------------------").color(NamedTextColor.GOLD));
-        return true;
     }
 }

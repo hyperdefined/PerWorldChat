@@ -7,6 +7,9 @@ author: hyperdefined
 website: https://github.com/hyperdefined/PerWorldChat/
 description: Separate chat between worlds.
 folia-supported: true
+
+loader: lol.hyper.perworldchat.PerWorldChatLoader
+
 commands:
   worlds:
     usage: /worlds
