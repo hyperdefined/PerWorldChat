@@ -1,7 +1,7 @@
 name: PerWorldChat
-version: ${project.version}
+version: ${version}
 main: lol.hyper.perworldchat.PerWorldChat
-api-version: 1.21
+api-version: '26.1.1'
 load: STARTUP
 author: hyperdefined
 website: https://github.com/hyperdefined/PerWorldChat/
