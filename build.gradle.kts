@@ -18,7 +18,7 @@ dependencies {
 }
 
 group = "lol.hyper"
-version = "1.2.2"
+version = "1.2.3"
 description = "PerWorldChat"
 java.sourceCompatibility = JavaVersion.VERSION_25
 
